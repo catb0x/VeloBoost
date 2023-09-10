@@ -8,6 +8,11 @@
 GuiHotkey := "NumpadClear" ; Default Hotkey
 GuiDelay := 3050 ; Default Delay
 GuiEmote := "/e laugh"
+If Not A_IsAdmin
+{
+     MsgBox This script won't work if you don't run it as admin.
+	 ExitApp
+}
 
 ; Gui
 Gui, +AlwaysOnTop
@@ -35,12 +40,11 @@ Gui, Add, Text, x10 y158 w50 h25, Emote
 
 Gui, Tab, 3
 Gui, Font, s15
-Gui, Add, Text, x10 y88, VeloBoost 1.2
-Gui, Font, s13
-Gui, Add, Link, x10 y115, Made by <a href="https://kitfi.crd.co">kit</a>
+Gui, Add, Text, x10 y88, VeloBoost 1.2.1
+Gui, Font, s12
+Gui, Add, Link, x10 y115, Made by <a href="https://kits.ju.mp">kit</a>
 Gui, Add, Link, x10 y137, Idea by <a href="https://youtube.com/@kpmaxo">kpmaxo</a>
-Gui, Font, s10
-Gui, Add, Link, x10 y160, Github: <a href="https://github.com/catb0x/VeloBoost">catb0x/VeloBoost</a>
+Gui, Add, Link, x10 y159, Github: <a href="https://github.com/catb0x/VeloBoost">catb0x/VeloBoost</a>
 
 ; Gosubs / Hotkeys
 Update:
@@ -49,10 +53,10 @@ Return
 
 UpdateHotkey:
 GuiControlGet, NewHotkey,, GuiHotkey
-if (NewHotkey != GuiHotkey) {
- Hotkey, %GuiHotkey% , Macro, Off
- GuiHotkey := NewHotkey
- Hotkey, %GuiHotkey% , Macro, On
+If (NewHotkey != GuiHotkey) {
+     Hotkey, %GuiHotkey% , Macro, Off
+     GuiHotkey := NewHotkey
+     Hotkey, %GuiHotkey% , Macro, On
 }
 Return
 
@@ -65,6 +69,18 @@ Hotkey, %GuiHotkey% , Macro, Off
 Return
 
 Macro:
+If WinExist("Roblox")
+{
+     WinActivate
+}
+Else
+{
+     MsgBox 4,, Roblox wasn't found. Are you sure you wanna continue?
+     IfMsgBox No
+     {
+         Return
+     }
+}
 SendInput {NumpadDiv}
 Sleep 40
 SendInput {Esc}
